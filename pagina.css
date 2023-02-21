@@ -39,3 +39,9 @@
   border-radius: 5px;
   margin: 8px;
 }
+
+img{
+  width: 150px;
+  height: 150px;
+  object-fit: fill;
+}

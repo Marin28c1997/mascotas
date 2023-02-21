@@ -13,12 +13,12 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            
+
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" @click="abrirVentana">Opciones</a>  
-                
-                 </div>
+                    <a class="nav-item nav-link" @click="abrirVentana">Opciones</a>
+
+                </div>
             </div>
             <div class=" my-2 my-lg-0">
                 <button class="btn btn-danger my-2 my-sm-0" @click="salir">Logout</button>
@@ -27,7 +27,7 @@
         <!-- Ventana de entrada-->
         <div>
             <div class="container">
-                <div class="overlay" v-if="mostrarVentana" >
+                <div class="overlay" v-if="mostrarVentana">
                     <div class="ventana">
                         <h2>Bienvenido {{user.login.username}}</h2>
                         <p>Por favor, selecciona una opción:</p>
@@ -110,9 +110,13 @@
 
         <!-- Tabla-->
         <div v-if="ventanaAdmin">
-            <table>
-                <thead>
+
+
+            <table class="table">
+                <thead class="thead-light">
                     <tr>
+
+                        <th>Imagen</th>
                         <th>Nombre</th>
                         <th>Raza</th>
                         <th>Color</th>
@@ -120,12 +124,13 @@
                         <th>Edad</th>
                         <th>Género</th>
                         <th>Descripción</th>
-                        <th>Imagen</th>
                         <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(mascota, index) in mascotas" :key="index">
+
+                        <td><img :src="mascota.imagen" alt=""></td>
                         <td>{{ mascota.nombre }}</td>
                         <td>{{ mascota.raza }}</td>
                         <td>{{ mascota.color }}</td>
@@ -134,10 +139,10 @@
                         <td>{{ mascota.genero }}</td>
                         <td>{{ mascota.descripcion }}</td>
                         <td>{{ mascota.estado }}</td>
-                        <td><img :src="mascota.imagen" alt=""></td>
                     </tr>
                 </tbody>
             </table>
+
         </div>
 
 
@@ -147,8 +152,8 @@
             <h1>MASCOTAS DISPONIBLES</h1>
 
             <div class="cards row g-0">
-                <div class="card" v-for="(mascota, index) in mascotas" :key="index">
-                    <img :src="mascota.imagen" :alt="mascota.name">
+                <div class="card" v-if="mascota.estado == true" v-for="(mascota, index) in mascotas" :key="index">
+                    <img :src="mascota.imagen" :alt="mascota.name" class="imagenMascota">
                     <div class="card-body">
                         <p>{{ mascota.nombre }}</p>
                         <p>{{ mascota.raza }}</p>
@@ -157,6 +162,7 @@
                         <p>{{ mascota.edad }}</p>
                         <p>{{ mascota.genero }}</p>
                         <p>{{ mascota.descripcion }}</p>
+                        <button class="btn btn-primary" @click="adoptarMascota(index)">Adoptar</button>
                     </div>
                 </div>
             </div>
