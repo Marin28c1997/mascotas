@@ -1,0 +1,173 @@
+<html>
+
+<head>
+    <title>Mascotas</title>
+    <link rel="shortcut icon" href="log.png">
+    <link rel="stylesheet" href="pagina.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" @click="abrirVentana">Opciones</a>  
+                
+                 </div>
+            </div>
+            <div class=" my-2 my-lg-0">
+                <button class="btn btn-danger my-2 my-sm-0" @click="salir">Logout</button>
+            </div>
+        </nav>
+        <!-- Ventana de entrada-->
+        <div>
+            <div class="container">
+                <div class="overlay" v-if="mostrarVentana" >
+                    <div class="ventana">
+                        <h2>Bienvenido {{user.login.username}}</h2>
+                        <p>Por favor, selecciona una opción:</p>
+                        <div class="cards row">
+                            <div class="cards">
+                                <img src="adop.jpg" alt="adopta" @click="adoptar()">
+
+                                <p>Adoptar mascota</p>
+                            </div>
+                            <hr>
+                            <div class="cards">
+                                <img src="dar.jpg" alt="dar" @click="darAdopcion()">
+                                <p>Dar en adopción </p>
+                            </div>
+                            <hr>
+                            <div class="cards" v-if="user.cargo === 1">
+                                <img src="admin.jpg" alt="admin" @click="admin()">
+                                <p>Administrar</p>
+                            </div>
+                        </div>
+                        <button @click="cerrarVentana">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Adapción-->
+        <div v-if="ventanaAdoptar">
+            <h2> DATOS DE LA MASCOTA</h2>
+            <form @submit.prevent="agregarUsuario">
+                <div class="elemento">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" v-model="nombre" placeholder="Ingrese el nombre de la mascota"></input>
+                </div>
+                <div class="elemento">
+                    <label for="raza">Raza</label>
+                    <input type="text" v-model="raza" placeholder="Ingrese la raza de la mascota"></input>
+                </div>
+
+                <div class="elemento">
+                    <label for="color">Color</label>
+                    <input type="text" v-model="color" placeholder="Ingrese el color de la mascota"></input>
+                </div>
+
+                <div class="elemento">
+                    <label for="especie">Especie o tipo</label>
+                    <select v-model="especie">
+                        <option value="felino">Felino</option>
+                        <option value="canino">Canino</option>
+                    </select>
+                </div>
+
+                <div class="elemento">
+                    <label for="edad">Edad</label>
+                    <input type="number" v-model="edad" placeholder="Ingrese la edad de la mascota"></input>
+                </div>
+
+                <div class="elemento">
+                    <label for="genero">Genéro</label>
+                    <select v-model="genero">
+                        <option value="macho">Macho</option>
+                        <option value="hembre">Hembra</option>
+                    </select>
+                </div>
+
+                <div class="elemento">
+                    <label for="descripcion">Descripción</label>
+                    <textarea type="text" v-model="descripcion"
+                        placeholder="Cariñoso, juguéton, obediente, grande, entre otros"></textarea>
+                </div>
+
+                <label for="imagenesPredeterminadas">Subir imagen:</label>
+                <input id="imagenesPredeterminadas" type="file" @change="seleccionarImagenPredeterminada">
+                <button type="submit">Guardar</button>
+
+            </form>
+        </div>
+
+        <!-- Tabla-->
+        <div v-if="ventanaAdmin">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Raza</th>
+                        <th>Color</th>
+                        <th>Especie</th>
+                        <th>Edad</th>
+                        <th>Género</th>
+                        <th>Descripción</th>
+                        <th>Imagen</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(mascota, index) in mascotas" :key="index">
+                        <td>{{ mascota.nombre }}</td>
+                        <td>{{ mascota.raza }}</td>
+                        <td>{{ mascota.color }}</td>
+                        <td>{{ mascota.especie }}</td>
+                        <td>{{ mascota.edad }}</td>
+                        <td>{{ mascota.genero }}</td>
+                        <td>{{ mascota.descripcion }}</td>
+                        <td>{{ mascota.estado }}</td>
+                        <td><img :src="mascota.imagen" alt=""></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Adoptar-->
+        <div v-if="ventanaMascotas">
+
+            <h1>MASCOTAS DISPONIBLES</h1>
+
+            <div class="cards row g-0">
+                <div class="card" v-for="(mascota, index) in mascotas" :key="index">
+                    <img :src="mascota.imagen" :alt="mascota.name">
+                    <div class="card-body">
+                        <p>{{ mascota.nombre }}</p>
+                        <p>{{ mascota.raza }}</p>
+                        <p>{{ mascota.color }}</p>
+                        <p>{{ mascota.especie }}</p>
+                        <p>{{ mascota.edad }}</p>
+                        <p>{{ mascota.genero }}</p>
+                        <p>{{ mascota.descripcion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="pagina.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</html>
