@@ -12,11 +12,12 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" @click="abrirVentana">Opciones</a>
+                    <a class="nav-item nav-link" @click="abrirVentana" style="color:white; font-size: 25px;">Opciones</a>
 
                 </div>
             </div>
@@ -24,12 +25,15 @@
                 <button class="btn btn-danger my-2 my-sm-0" @click="salir">Logout</button>
             </div>
         </nav>
+
+        <!---->
+          
         <!-- Ventana de entrada-->
         <div>
             <div class="container">
                 <div class="overlay" v-if="mostrarVentana">
                     <div class="ventana">
-                        <h2>Bienvenido {{user.login.username}}</h2>
+                        <h2>Bienvenid@ {{user.login.username}}</h2>
                         <p>Por favor, selecciona una opción:</p>
                         <div class="cards row">
                             <div class="cards">
@@ -48,7 +52,7 @@
                                 <p>Administrar</p>
                             </div>
                         </div>
-                        <button @click="cerrarVentana">Cerrar</button>
+                        <button class="btn btn-danger" @click="cerrarVentana">Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -57,62 +61,61 @@
 
 
         <!-- Adapción-->
-        <div v-if="ventanaAdoptar">
+        <div v-if="ventanaAdoptar" class="adoptarVentana">
             <h2> DATOS DE LA MASCOTA</h2>
             <form @submit.prevent="agregarUsuario">
-                <div class="elemento">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" v-model="nombre" placeholder="Ingrese el nombre de la mascota"></input>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="nombre">Nombre</label>
+                  <input type="text" class="form-control" v-model="nombre" placeholder="Ingrese el nombre de la mascota">
                 </div>
-                <div class="elemento">
-                    <label for="raza">Raza</label>
-                    <input type="text" v-model="raza" placeholder="Ingrese la raza de la mascota"></input>
+                <div class="form-group col-md-4">
+                  <label for="raza">Raza</label>
+                  <input type="text" class="form-control" v-model="raza" placeholder="Ingrese la raza de la mascota">
                 </div>
-
-                <div class="elemento">
-                    <label for="color">Color</label>
-                    <input type="text" v-model="color" placeholder="Ingrese el color de la mascota"></input>
+                <div class="form-group col-md-4">
+                  <label for="color">Color</label>
+                  <input type="text" class="form-control" v-model="color" placeholder="Ingrese el color de la mascota">
                 </div>
-
-                <div class="elemento">
-                    <label for="especie">Especie o tipo</label>
-                    <select v-model="especie">
-                        <option value="felino">Felino</option>
-                        <option value="canino">Canino</option>
-                    </select>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="especie">Especie o tipo</label>
+                  <select class="form-control" v-model="especie">
+                    <option value="felino">Felino</option>
+                    <option value="canino">Canino</option>
+                  </select>
                 </div>
-
-                <div class="elemento">
-                    <label for="edad">Edad</label>
-                    <input type="number" v-model="edad" placeholder="Ingrese la edad de la mascota"></input>
+                <div class="form-group col-md-4">
+                  <label for="edad">Edad</label>
+                  <input type="number" class="form-control" v-model="edad" placeholder="Ingrese la edad de la mascota">
                 </div>
-
-                <div class="elemento">
-                    <label for="genero">Genéro</label>
-                    <select v-model="genero">
-                        <option value="macho">Macho</option>
-                        <option value="hembre">Hembra</option>
-                    </select>
+                <div class="form-group col-md-4">
+                  <label for="genero">Genéro</label>
+                  <select class="form-control" v-model="genero">
+                    <option value="macho">Macho</option>
+                    <option value="hembre">Hembra</option>
+                  </select>
                 </div>
-
-                <div class="elemento">
-                    <label for="descripcion">Descripción</label>
-                    <textarea type="text" v-model="descripcion"
-                        placeholder="Cariñoso, juguéton, obediente, grande, entre otros"></textarea>
-                </div>
-
+              </div>
+              <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea class="form-control" type="text" v-model="descripcion" placeholder="Cariñoso, juguéton, obediente, grande, entre otros"></textarea>
+              </div>
+              <div class="form-group">
                 <label for="imagenesPredeterminadas">Subir imagen:</label>
-                <input id="imagenesPredeterminadas" type="file" @change="seleccionarImagenPredeterminada">
-                <button type="submit">Guardar</button>
-
+                <input id="imagenesPredeterminadas" type="file" @change="seleccionarImagenPredeterminada" class="form-control-file">
+              </div>
+              <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
-        </div>
+          </div>
+          
 
         <!-- Tabla-->
         <div v-if="ventanaAdmin">
 
 
-            <table class="table">
+            <table class="table table-hover table-dark">
                 <thead class="thead-light">
                     <tr>
 
@@ -131,14 +134,18 @@
                     <tr v-for="(mascota, index) in mascotas" :key="index">
 
                         <td><img :src="mascota.imagen" alt=""></td>
-                        <td>{{ mascota.nombre }}</td>
-                        <td>{{ mascota.raza }}</td>
-                        <td>{{ mascota.color }}</td>
-                        <td>{{ mascota.especie }}</td>
-                        <td>{{ mascota.edad }}</td>
-                        <td>{{ mascota.genero }}</td>
-                        <td>{{ mascota.descripcion }}</td>
-                        <td>{{ mascota.estado }}</td>
+                        <td><span v-text="mascota.nombre"> </span></td>
+                        <td><span v-text="mascota.raza"></span></td>
+                        <td><span v-text="mascota.color"></span></td>
+                        <td><span v-text="mascota.especie"></span></td>
+                        <td><span v-text="mascota.edad"></span></td>
+                        <td><span v-text="mascota.genero"></span></td>
+                        <td><span v-text="mascota.descripcion"></span></td>
+                        <td class="led" :class="{ 'led-on': mascota.estado, 'led-off': !mascota.estado }">
+                            <br>
+                            <span v-if="mascota.estado == true"> Por adoptar</span>
+                            <span v-if="mascota.estado == false"> Adoptado</span></td>
+                            
                     </tr>
                 </tbody>
             </table>
@@ -149,25 +156,25 @@
         <!-- Adoptar-->
         <div v-if="ventanaMascotas">
 
-            <h1>MASCOTAS DISPONIBLES</h1>
-
-            <div class="cards row g-0">
-                <div class="card" v-if="mascota.estado == true" v-for="(mascota, index) in mascotas" :key="index">
-                    <img :src="mascota.imagen" :alt="mascota.name" class="imagenMascota">
+            <h1 class="text-center mb-4">MASCOTAS DISPONIBLES</h1>
+            <div class="card-group " >
+            <div class="cards row g-4" >
+                <div class="card disponibles" v-if="mascota.estado == true" v-for="(mascota, index) in mascotas" :key="index">
+                    <img :src="mascota.imagen" :alt="mascota.name">
                     <div class="card-body">
-                        <p>{{ mascota.nombre }}</p>
-                        <p>{{ mascota.raza }}</p>
-                        <p>{{ mascota.color }}</p>
-                        <p>{{ mascota.especie }}</p>
-                        <p>{{ mascota.edad }}</p>
-                        <p>{{ mascota.genero }}</p>
-                        <p>{{ mascota.descripcion }}</p>
+                       <h1 v-text="mascota.nombre"> </h1>
+                       <p>  raza: <span v-text="mascota.raza"> </span></p>
+                        <p> color: <span v-text="mascota.color"> </span></p>
+                        <p> especie: <span v-text="mascota.especie"> </span></p>
+                        <p> edad: <span v-text="mascota.edad"> </span></p>
+                        <p> genero: <span v-text="mascota.genero"> </span></p>
+                        <p> descripcion: <span v-text="mascota.descripcion"> </span></p>
                         <button class="btn btn-primary" @click="adoptarMascota(index)">Adoptar</button>
                     </div>
                 </div>
             </div>
         </div>
-
+        </div>
     </div>
 
 </body>

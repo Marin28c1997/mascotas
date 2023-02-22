@@ -12,7 +12,7 @@ var app = new Vue({
     imagenSeleccionada: '',
     estado:true,
     mostrarVentana: true,
-    ventanaMascotas:false,
+    ventanaMascotas:true,
     ventanaAdmin:false,
     ventanaAdoptar:false,
     user: JSON.parse(localStorage.getItem("logueado")),
@@ -54,7 +54,21 @@ methods: {
     lector.readAsDataURL(archivo);
   },
   cerrarVentana() {
-    this.mostrarVentana = false;
+    Swal.fire({
+      title: "Salir",
+      text: " ¿Seguro que desea Salir?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Sí, salir!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.mostrarVentana = false;
+      }
+    });
+
+    
   },
 
   

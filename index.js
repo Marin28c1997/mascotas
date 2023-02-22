@@ -13,6 +13,7 @@ var app = new Vue({
           user.login.username === this.username &&
           user.login.password === this.password
       );
+
       if (!user.length) {
         swal("Error", "Usuario o contraseña incorrectas", "error");
         return;
@@ -34,15 +35,18 @@ var app = new Vue({
     },
 
     async getUsers() {
+
       const response = await fetch(
         `https://randomuser.me/api/?results=10`
       );
       const data = await response.json();
       this.users = data.results;
+
       this.users.map((item) => {
         const cargo = this.getRandomInt(2);
         item.cargo = cargo;
       });
+
       localStorage.setItem('users', JSON.stringify(this.users));
     },
 
