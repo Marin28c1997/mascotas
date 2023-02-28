@@ -28,7 +28,7 @@ var app = new Vue({
 
       setTimeout(() => {
         if (this.login) {
-          location.href = "pagina.html";
+          location.href = "/page/pagina.html";
         }
       }, 1600);
     
